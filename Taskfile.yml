@@ -3,14 +3,16 @@ version: '3'
 tasks:
   run:
     cmds:
-      - task: build-wasm
+      - task: wasm:build
       - go run ./build
     desc: Run the app
     dir: .
     silent: false
 
   build:
+    desc: Build the app
     cmds:
+      - task: wasm:build
       - task: build:{{OS}}
 
   wasm:build:
