@@ -29,4 +29,12 @@ This is a simple example of how to use [Vecty](https://github.com/gopherjs/vecty
 task run
 ```
 
-This will compile the WebAssembly code and start the desktop application.
+This will compile the WebAssembly code and start the desktop application using `go run`.
+
+### Building the Application
+
+```bash
+task build
+```
+
+This will compile the WebAssembly code and build the desktop application for the host platform, placing it in `./dist`.

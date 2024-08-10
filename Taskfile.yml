@@ -1,14 +1,6 @@
 version: '3'
 
 tasks:
-  build:
-    cmds:
-      - task: build-wasm
-      - go build -o ./dist/main ./build
-    desc: Build the app
-    dir: .
-    silent: false
-
   run:
     cmds:
       - task: build-wasm
@@ -17,12 +9,60 @@ tasks:
     dir: .
     silent: false
 
-  build-wasm:
+  build:
+    cmds:
+      - task: build:{{OS}}
+
+  wasm:build:
     cmds:
       - go build -o ./build/main.wasm ./app
-    desc: Build wasm
+    desc: Compile Vecty app into WebAssembly
     dir: .
     env:
       GOOS: js
       GOARCH: wasm
       CGO_ENABLED: 0
+
+  build:darwin:
+    internal: true
+    cmds:
+      - cmd: echo "Building for darwin amd64"
+        silent: true
+      - cmd: go build -o ./dist/main ./build
+        silent: false
+    env:
+      GOOS: darwin
+      GOARCH: amd64
+
+  build:darwin:arm64:
+    internal: true
+    cmds:
+      - cmd: echo "Building for darwin arm64"
+        silent: true
+      - cmd: go build -o ./dist/main ./build
+        silent: false
+    env:
+      GOOS: darwin
+      GOARCH: arm64
+
+  build:windows:
+    internal: true
+    cmds:
+      - cmd: echo "Building for windows"
+        silent: true
+      - cmd: go build -o ./dist/main.exe ./build
+        silent: false
+    env:
+      GOOS: windows
+      GOARCH: amd64
+
+  build:linux:
+    internal: true
+    cmds:
+      - cmd: echo "Building for linux"
+        silent: true
+      - cmd: go build -o ./dist/main ./build
+        silent: false
+    env:
+      GOOS: linux
+      GOARCH: amd64
