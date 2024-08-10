@@ -1,0 +1,28 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - task: build-wasm
+      - go build -o ./dist/main ./build
+    desc: Build the app
+    dir: .
+    silent: false
+
+  run:
+    cmds:
+      - task: build-wasm
+      - go run ./build
+    desc: Run the app
+    dir: .
+    silent: false
+
+  build-wasm:
+    cmds:
+      - go build -o ./build/main.wasm ./app
+    desc: Build wasm
+    dir: .
+    env:
+      GOOS: js
+      GOARCH: wasm
+      CGO_ENABLED: 0
