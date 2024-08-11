@@ -1,3 +1,4 @@
 *
 !.gitignore
 !main.go
+!config.yaml

@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-yaml/yaml"
-	"github.com/zserge/lorca"
+	"github.com/nathan-fiscaletti/lorca"
 )
 
 //go:embed config.yaml

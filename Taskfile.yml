@@ -36,21 +36,21 @@ tasks:
   wasm:clean:windows:
     internal: true
     cmds:
-      - del /f ./host/main.wasm
+      - cmd /c "del /F .\host\*.wasm"
     dir: .
     silent: true
 
   wasm:clean:darwin:
     internal: true
     cmds:
-      - rm -f ./host/main.wasm
+      - rm -f ./host/*.wasm
     dir: .
     silent: true
 
   wasm:clean:linux:
     internal: true
     cmds:
-      - rm -f ./host/main.wasm
+      - rm -f ./host/*.wasm
     dir: .
     silent: true
 

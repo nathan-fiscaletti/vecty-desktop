@@ -12,7 +12,4 @@ import (
 func main() {
 	// Create and render the Vecty component
 	vecty.RenderBody(&components.ExampleComponent{})
-
-	// Keep the Wasm process running
-	select {}
 }
