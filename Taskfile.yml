@@ -12,12 +12,12 @@ tasks:
   build:
     desc: Build the app
     cmds:
-      - task: wasm:clean
       - task: wasm:build
       - task: build:{{OS}}
 
   wasm:build:
     cmds:
+      - task: wasm:clean
       - go build -o ./host/main.wasm ./app
     desc: Compile Vecty app into WebAssembly
     dir: .
@@ -40,7 +40,14 @@ tasks:
     dir: .
     silent: true
 
-  wasm:clean:nix:
+  wasm:clean:darwin:
+    internal: true
+    cmds:
+      - rm -f ./host/main.wasm
+    dir: .
+    silent: true
+
+  wasm:clean:linux:
     internal: true
     cmds:
       - rm -f ./host/main.wasm
