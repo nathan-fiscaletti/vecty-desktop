@@ -21,7 +21,7 @@ This is a simple example of how to use [Vecty](https://github.com/gopherjs/vecty
   go env GOROOT
   ```
   
-  Once located, copy it to the `./build` directory.
+  Once located, copy it to the `./host` directory.
 
 ### Running the application
 
@@ -38,3 +38,18 @@ task build
 ```
 
 This will compile the WebAssembly code and build the desktop application for the host platform, placing it in `./dist`.
+
+## File Structure
+
+- `./app`
+
+Your application code will be placed in this directory. This is where you will write your Vecty code.
+
+- `./host`
+
+This directory is the place in which the Lorca application code is managed. This is separate from the `./app` directory to keep the code separate and to make it easier to manage. It's also used as an intermediate directory when compiling the web assembly code.
+
+- `./build`
+
+When the application is built, the output will be placed in this directory. The output will be the desktop application for the host platform.
+

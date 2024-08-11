@@ -1,3 +1,5 @@
+github.com/go-yaml/yaml v2.1.0+incompatible h1:RYi2hDdss1u4YE7GwixGzWwVo47T8UQwnTLB6vQiq+o=
+github.com/go-yaml/yaml v2.1.0+incompatible/go.mod h1:w2MrLa16VYP0jy6N7M5kHaCkaLENm+P+Tv+MfurjSw0=
 github.com/hexops/vecty v0.6.0 h1:iiHfDOLEJufGy/hfPGzOTPkZe6rCszElYmUSzRQqK1w=
 github.com/hexops/vecty v0.6.0/go.mod h1:hVOPHAhrkXTf/9fl31Bpn2QvkW2ZOUZ0I3b3cohwCpI=
 github.com/zserge/lorca v0.1.10 h1:f/xBJ3D3ipcVRCcvN8XqZnpoKcOXV8I4vwqlFyw7ruc=
