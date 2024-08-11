@@ -37,7 +37,7 @@ This will compile the WebAssembly code and start the desktop application using `
 task build
 ```
 
-This will compile the WebAssembly code and build the desktop application for the host platform, placing it in `./dist`.
+This will compile the WebAssembly code and build the desktop application for the host platform, placing it in `./build`.
 
 ## File Structure
 
