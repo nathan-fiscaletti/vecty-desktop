@@ -2,11 +2,40 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/zserge/lorca"
+	"github.com/go-yaml/yaml"
+	"github.com/nathan-fiscaletti/lorca"
 )
+
+//go:embed config.yaml
+var cfgFileSystem embed.FS
+var cfg *Config
+
+type Config struct {
+	Port int `yaml:"port"`
+}
+
+func GetConfig() (*Config, error) {
+	if cfg != nil {
+		return cfg, nil
+	}
+
+	data, err := cfgFileSystem.ReadFile("config.yaml")
+	if err != nil {
+		return nil, err
+	}
+
+	cfg = &Config{}
+	err = yaml.Unmarshal(data, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return cfg, nil
+}
 
 //go:embed main.wasm wasm_exec.js
 var content embed.FS
@@ -53,13 +82,21 @@ func main() {
 		w.Write([]byte(html))
 	})
 
+	appCfg, err := GetConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	appPortString := fmt.Sprintf(":%v", appCfg.Port)
+	appUrlString := fmt.Sprintf("http://localhost%v", appPortString)
+
 	// Start the web server
 	go func() {
-		log.Fatal(http.ListenAndServe(":8106", nil))
+		log.Fatal(http.ListenAndServe(appPortString, nil))
 	}()
 
 	// Create a new Lorca UI
-	ui, err := lorca.New("http://localhost:8106", "", 800, 600, "--remote-allow-origins=*")
+	ui, err := lorca.New(appUrlString, "", 800, 600, "--remote-allow-origins=*")
 	if err != nil {
 		log.Fatal(err)
 	}

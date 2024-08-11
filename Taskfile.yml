@@ -4,7 +4,7 @@ tasks:
   run:
     cmds:
       - task: wasm:build
-      - go run ./build
+      - go run ./host
     desc: Run the app
     dir: .
     silent: false
@@ -17,7 +17,8 @@ tasks:
 
   wasm:build:
     cmds:
-      - go build -o ./build/main.wasm ./app
+      - task: wasm:clean
+      - go build -o ./host/main.wasm ./app
     desc: Compile Vecty app into WebAssembly
     dir: .
     env:
@@ -25,12 +26,40 @@ tasks:
       GOARCH: wasm
       CGO_ENABLED: 0
 
+  wasm:clean:
+    cmds:
+      - task: wasm:clean:{{OS}}
+    desc: Clean up WebAssembly build
+    dir: .
+    silent: true
+
+  wasm:clean:windows:
+    internal: true
+    cmds:
+      - cmd /c "del /F .\host\*.wasm"
+    dir: .
+    silent: true
+
+  wasm:clean:darwin:
+    internal: true
+    cmds:
+      - rm -f ./host/*.wasm
+    dir: .
+    silent: true
+
+  wasm:clean:linux:
+    internal: true
+    cmds:
+      - rm -f ./host/*.wasm
+    dir: .
+    silent: true
+
   build:darwin:
     internal: true
     cmds:
       - cmd: echo "Building for darwin amd64"
         silent: true
-      - cmd: go build -o ./dist/main ./build
+      - cmd: go build -o ./build/main ./host
         silent: false
     env:
       GOOS: darwin
@@ -41,7 +70,7 @@ tasks:
     cmds:
       - cmd: echo "Building for darwin arm64"
         silent: true
-      - cmd: go build -o ./dist/main ./build
+      - cmd: go build -o ./build/main ./host
         silent: false
     env:
       GOOS: darwin
@@ -52,7 +81,7 @@ tasks:
     cmds:
       - cmd: echo "Building for windows"
         silent: true
-      - cmd: go build -o ./dist/main.exe ./build
+      - cmd: go build -o ./build/main.exe ./host
         silent: false
     env:
       GOOS: windows
@@ -63,7 +92,7 @@ tasks:
     cmds:
       - cmd: echo "Building for linux"
         silent: true
-      - cmd: go build -o ./dist/main ./build
+      - cmd: go build -o ./build/main ./host
         silent: false
     env:
       GOOS: linux
