@@ -1,15 +1,13 @@
-//go:build js && wasm
-// +build js,wasm
-
-package main
+package internal
 
 import (
 	"github.com/hexops/vecty"
-
-	"github.com/nathan-fiscaletti/vecty-meets-lorca/app/components"
+	"github.com/nathan-fiscaletti/vecty-desktop/app/internal/components"
 )
 
-func main() {
+func Main() error {
 	// Create and render the Vecty component
 	vecty.RenderBody(&components.ExampleComponent{})
+
+	return nil
 }

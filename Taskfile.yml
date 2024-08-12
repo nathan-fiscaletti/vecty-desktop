@@ -4,9 +4,9 @@ tasks:
   run:
     cmds:
       - task: wasm:build
-      - go run ./host
+      - go run ./cmd
     desc: Run the app
-    dir: .
+    dir: ./container
     silent: false
 
   build:
@@ -18,9 +18,9 @@ tasks:
   wasm:build:
     cmds:
       - task: wasm:clean
-      - go build -o ./host/main.wasm ./app
+      - go build -o ../container/cmd/main.wasm ./cmd
     desc: Compile Vecty app into WebAssembly
-    dir: .
+    dir: ./app
     env:
       GOOS: js
       GOARCH: wasm
@@ -30,28 +30,27 @@ tasks:
     cmds:
       - task: wasm:clean:{{OS}}
     desc: Clean up WebAssembly build
-    dir: .
     silent: true
 
   wasm:clean:windows:
     internal: true
     cmds:
-      - cmd /c "del /F .\host\*.wasm"
-    dir: .
+      - cmd /c "del /F *.wasm"
+    dir: ./container/cmd
     silent: true
 
   wasm:clean:darwin:
     internal: true
     cmds:
-      - rm -f ./host/*.wasm
-    dir: .
+      - rm -f *.wasm
+    dir: ./container/cmd
     silent: true
 
   wasm:clean:linux:
     internal: true
     cmds:
-      - rm -f ./host/*.wasm
-    dir: .
+      - rm -f *.wasm
+    dir: ./container/cmd
     silent: true
 
   build:darwin:
@@ -59,8 +58,9 @@ tasks:
     cmds:
       - cmd: echo "Building for darwin amd64"
         silent: true
-      - cmd: go build -o ./build/main ./host
+      - cmd: go build -o ../dist/main ./cmd
         silent: false
+    dir: ./container
     env:
       GOOS: darwin
       GOARCH: amd64
@@ -70,8 +70,9 @@ tasks:
     cmds:
       - cmd: echo "Building for darwin arm64"
         silent: true
-      - cmd: go build -o ./build/main ./host
+      - cmd: go build -o ../dist/main ./cmd
         silent: false
+    dir: ./container
     env:
       GOOS: darwin
       GOARCH: arm64
@@ -81,8 +82,9 @@ tasks:
     cmds:
       - cmd: echo "Building for windows"
         silent: true
-      - cmd: go build -o ./build/main.exe ./host
+      - cmd: go build -o ../dist/main.exe ./cmd
         silent: false
+    dir: ./container
     env:
       GOOS: windows
       GOARCH: amd64
@@ -92,8 +94,9 @@ tasks:
     cmds:
       - cmd: echo "Building for linux"
         silent: true
-      - cmd: go build -o ./build/main ./host
+      - cmd: go build -o ../dist/main ./cmd
         silent: false
+    dir: ./container
     env:
       GOOS: linux
       GOARCH: amd64
