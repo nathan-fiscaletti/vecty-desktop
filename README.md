@@ -1,55 +1,57 @@
 # Vecty Desktop
 
-This is a template for creating a desktop application using [Vecty](https://github.com/gopherjs/vecty) managed entirely in Go. This template uses [Lorca](https://github.com/zserge/lorca) to manage the host application and the web assembly code. This allows you to create a desktop application using Go and WebAssembly.
+This template enables you to create a desktop application using [Vecty](https://github.com/gopherjs/vecty) and manage it entirely in Go. By leveraging [Lorca](https://github.com/zserge/lorca), this setup handles both the host application and the WebAssembly code, making it easy to build desktop apps with Go and WebAssembly.
 
-## How to run
+## Getting Started
 
 ### Prerequisites
 
 - **TaskFile**
 
-  Task is used for running the build and run commands.
-  [Installation Instructions](https://taskfile.dev/installation/)
+  To manage build and run commands, this template uses Task. You can find installation instructions [here](https://taskfile.dev/installation/).
 
 - **`wasm_exec.js`**
 
-  You need to grab the `wasm_exec.js` file from your `GOROOT` in order to properly build your application. You can find it in the `misc/wasm` directory.
+  You’ll need the `wasm_exec.js` file from your `GOROOT` to properly build your application. This file is located in the `misc/wasm` directory of your Go installation.
 
-  If you do not know where your `GOROOT` is, you can run the following command:
+  If you’re unsure of your `GOROOT`, run:
 
   ```bash
   go env GOROOT
   ```
-  
-  Once located, copy it to the `./host` directory.
 
-### Running the application
+  Once you have located the `wasm_exec.js` file, copy it to the `./container/cmd` directory of this template. 
+  
+  >This file is only required for building the container application and is not needed for running the application.
+
+### Running the Application
+
+To compile the WebAssembly code and start the desktop application, use:
 
 ```bash
 task run
 ```
 
-This will compile the WebAssembly code and start the desktop application using `go run`.
-
 ### Building the Application
+
+To build the WebAssembly code and package the desktop application for the host platform, use:
 
 ```bash
 task build
 ```
 
-This will compile the WebAssembly code and build the desktop application for the host platform, placing it in `./build`.
+The build output will be placed in the `./dist` directory.
 
-## File Structure
+## Project Structure
 
-- `./app`
+- **`./app`**
 
-Your application code will be placed in this directory. This is where you will write your Vecty code.
+  This directory contains the code used to build the WebAssembly application. This is where you will make changes to the WebAssembly application.
 
-- `./host`
+- **`./container`**
 
-This directory is the place in which the Lorca application code is managed. This is separate from the `./app` directory to keep the code separate and to make it easier to manage. It's also used as an intermediate directory when compiling the web assembly code.
+  This directory contains the code used to build the desktop application. This is where you will make changes to the desktop application.
 
-- `./build`
+- **`./dist`**
 
-When the application is built, the output will be placed in this directory. The output will be the desktop application for the host platform.
-
+  This directory stores the final build output, containing the packaged desktop application for the host platform.
