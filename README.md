@@ -55,3 +55,66 @@ The build output will be placed in the `./dist` directory.
 - **`./dist`**
 
   This directory stores the final build output, containing the packaged desktop application for the host platform.
+
+## Inter Process Communication
+
+To expose a function from the container application to the WebAssembly application, use the `bind` function on the Lorca `ui` object. This function takes the name of the function and the function itself as arguments.
+
+```go
+// Create a binding for the UI
+err := ui.Bind("getContainerString", func() string {
+  return "Hello from the container application!"
+})
+if err != nil {
+  log.Fatal(err)
+}
+```
+
+In order to call this function from within your WebAssembly code, use the `syscall/js` package.
+
+```go
+import "syscall/js"
+```
+
+You can then call the function using the `js.Global().Call` function.
+
+```go
+containerStringPromise := js.Global().Call("getContainerString")
+```
+
+Keep in mind that when using `ui.Bind` in Lorca, the function will be bound as an asynchronous function. This means that when calling the function from the WebAssembly code, you will receive a Promise object that you can use to handle the result.
+
+```go
+containerStringPromise := js.Global().Call("getContainerString")
+containerStringPromise.Call("then", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+  // Extract the result from the Promise
+  res := args[0].String()
+
+  // Update the UI with the result
+  c.text = res
+  vecty.Rerender(c)
+  return nil
+}))
+```
+
+There is also a utility function built into this package to make calling these functions easier. You can use the `util.CallPromise()` function to call the function and handle the result in one step.
+
+```go
+util.CallPromise("getContainerString", util.PromiseHandler{
+  Resolve: func(value js.Value) {
+    c.text = value.String()
+  },
+  Reject: func(err js.Error) {
+    c.text = err.Error()
+  },
+  Finally: func() {
+    vecty.Rerender(c)
+  },
+})
+```
+
+You can also call Javascript functions in your WebAssembly code from the container application using the `ui.Eval` function.
+
+```go
+ui.Eval(`console.log("Hello from the container!")`)
+```
