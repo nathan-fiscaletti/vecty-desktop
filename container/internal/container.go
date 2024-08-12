@@ -67,6 +67,14 @@ func Main(fileSystem embed.FS) error {
 	}
 	defer ui.Close()
 
+	// Create a binding for the UI
+	err = ui.Bind("getContainerString", func() string {
+		return "Hello from the container application!"
+	})
+	if err != nil {
+		return err
+	}
+
 	// Start the web server
 	go func() {
 		log.Fatal(http.ListenAndServe(appPortString, nil))
