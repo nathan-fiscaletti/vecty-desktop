@@ -1,10 +1,10 @@
-# Vecty meets Lorca
+# Vecty Desktop
 
-This is a simple example of how to use [Vecty](https://github.com/gopherjs/vecty) with [Lorca](https://github.com/zserge/lorca) to create a desktop application.
+This is a template for creating a desktop application using [Vecty](https://github.com/gopherjs/vecty) managed entirely in Go. This template uses [Lorca](https://github.com/zserge/lorca) to manage the host application and the web assembly code. This allows you to create a desktop application using Go and WebAssembly.
 
 ## How to run
 
-### Preqrequisites
+### Prerequisites
 
 - **TaskFile**
 
