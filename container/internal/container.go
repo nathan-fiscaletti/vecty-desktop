@@ -26,30 +26,17 @@ func Main(fileSystem embed.FS) error {
 		fileServer.ServeHTTP(w, r)
 	})
 
+	http.HandleFunc("/main.css", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/css")
+		fileServer := http.FileServer(fs)
+		fileServer.ServeHTTP(w, r)
+	})
+
 	// Serve the HTML directly from a handler
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		html := `
-		<!DOCTYPE html>
-		<html lang="en">
-		<head>
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Vecty-Lorca Demo</title>
-			<script src="wasm_exec.js"></script>
-		</head>
-		<body>
-			<div id="root"></div>
-			<script>
-				const go = new Go();
-				WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
-					go.run(result.instance);
-				});
-			</script>
-		</body>
-		</html>
-		`
 		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(html))
+		fileServer := http.FileServer(fs)
+		fileServer.ServeHTTP(w, r)
 	})
 
 	appCfg, err := config.GetConfig()

@@ -6,7 +6,7 @@ import (
 	container "github.com/nathan-fiscaletti/vecty-desktop/container/internal"
 )
 
-//go:embed *.wasm wasm_exec.js
+//go:embed *.wasm *.html *.css *.js
 var content embed.FS
 
 func main() {
