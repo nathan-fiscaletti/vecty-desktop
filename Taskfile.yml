@@ -56,8 +56,6 @@ tasks:
   build:darwin:
     internal: true
     cmds:
-      - cmd: echo "Building for darwin amd64"
-        silent: true
       - cmd: go build -o ../dist/main ./cmd
         silent: false
     dir: ./container
@@ -68,8 +66,6 @@ tasks:
   build:darwin:arm64:
     internal: true
     cmds:
-      - cmd: echo "Building for darwin arm64"
-        silent: true
       - cmd: go build -o ../dist/main ./cmd
         silent: false
     dir: ./container
@@ -80,8 +76,6 @@ tasks:
   build:windows:
     internal: true
     cmds:
-      - cmd: echo "Building for windows"
-        silent: true
       - cmd: go build -o ../dist/main.exe ./cmd
         silent: false
     dir: ./container
@@ -92,8 +86,6 @@ tasks:
   build:linux:
     internal: true
     cmds:
-      - cmd: echo "Building for linux"
-        silent: true
       - cmd: go build -o ../dist/main ./cmd
         silent: false
     dir: ./container
